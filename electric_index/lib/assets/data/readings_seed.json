@@ -1,0 +1,664 @@
+{
+    "readings": [
+        {
+            "reading_id": 1,
+            "meter_id": "AC_1",
+            "month": "2026-01",
+            "index_prev_month": 79678,
+            "index_last_month": 79967,
+            "index_consumption": 289,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 2,
+            "meter_id": "AF_1",
+            "month": "2026-01",
+            "index_prev_month": 32187,
+            "index_last_month": 32379,
+            "index_consumption": 192,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 3,
+            "meter_id": "AG_1",
+            "month": "2026-01",
+            "index_prev_month": 92162,
+            "index_last_month": 92705,
+            "index_consumption": 543,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 4,
+            "meter_id": "AL_1",
+            "month": "2026-01",
+            "index_prev_month": 223471,
+            "index_last_month": 223593,
+            "index_consumption": 122,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 5,
+            "meter_id": "AP_1",
+            "month": "2026-01",
+            "index_prev_month": 71797,
+            "index_last_month": 72117,
+            "index_consumption": 320,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 6,
+            "meter_id": "AT_1",
+            "month": "2026-01",
+            "index_prev_month": 847876,
+            "index_last_month": 851826,
+            "index_consumption": 3950,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 7,
+            "meter_id": "AX_1",
+            "month": "2026-01",
+            "index_prev_month": 558750,
+            "index_last_month": 563863,
+            "index_consumption": 5113,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 8,
+            "meter_id": "AX_3",
+            "month": "2026-01",
+            "index_prev_month": 115837,
+            "index_last_month": 117994,
+            "index_consumption": 2157,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 9,
+            "meter_id": "AX_4",
+            "month": "2026-01",
+            "index_prev_month": 169904,
+            "index_last_month": 171979,
+            "index_consumption": 2075,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 10,
+            "meter_id": "AX_5",
+            "month": "2026-01",
+            "index_prev_month": 431432,
+            "index_last_month": 438375,
+            "index_consumption": 6943,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 11,
+            "meter_id": "AX_6",
+            "month": "2026-01",
+            "index_prev_month": 48971,
+            "index_last_month": 51262,
+            "index_consumption": 2291,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 12,
+            "meter_id": "CH_1",
+            "month": "2026-01",
+            "index_prev_month": 242124,
+            "index_last_month": 248338,
+            "index_consumption": 6214,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 13,
+            "meter_id": "DF_1",
+            "month": "2026-01",
+            "index_prev_month": 23753,
+            "index_last_month": 24162,
+            "index_consumption": 409,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 14,
+            "meter_id": "DT_1",
+            "month": "2026-01",
+            "index_prev_month": 324,
+            "index_last_month": 519,
+            "index_consumption": 195,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 15,
+            "meter_id": "FC_1",
+            "month": "2026-01",
+            "index_prev_month": 138151,
+            "index_last_month": 140720,
+            "index_consumption": 2569,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 16,
+            "meter_id": "FD_1",
+            "month": "2026-01",
+            "index_prev_month": 846768,
+            "index_last_month": 851604,
+            "index_consumption": 4836,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 17,
+            "meter_id": "FD_2",
+            "month": "2026-01",
+            "index_prev_month": 25079,
+            "index_last_month": 26675,
+            "index_consumption": 1596,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 18,
+            "meter_id": "HA_1",
+            "month": "2026-01",
+            "index_prev_month": 36705,
+            "index_last_month": 38180,
+            "index_consumption": 1475,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 19,
+            "meter_id": "HD_1",
+            "month": "2026-01",
+            "index_prev_month": 12844,
+            "index_last_month": 13086,
+            "index_consumption": 242,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 20,
+            "meter_id": "HL_1",
+            "month": "2026-01",
+            "index_prev_month": 32157,
+            "index_last_month": 32685,
+            "index_consumption": 528,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 21,
+            "meter_id": "HV_1",
+            "month": "2026-01",
+            "index_prev_month": 69511,
+            "index_last_month": 72196,
+            "index_consumption": 2685,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 22,
+            "meter_id": "ID_1",
+            "month": "2026-01",
+            "index_prev_month": 63106,
+            "index_last_month": 63428,
+            "index_consumption": 322,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 23,
+            "meter_id": "IG_1",
+            "month": "2026-01",
+            "index_prev_month": 50431,
+            "index_last_month": 50969,
+            "index_consumption": 538,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 24,
+            "meter_id": "JA_1",
+            "month": "2026-01",
+            "index_prev_month": 45179,
+            "index_last_month": 45708,
+            "index_consumption": 529,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 25,
+            "meter_id": "JA_2",
+            "month": "2026-01",
+            "index_prev_month": 27966,
+            "index_last_month": 28560,
+            "index_consumption": 594,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 26,
+            "meter_id": "JA_3",
+            "month": "2026-01",
+            "index_prev_month": 12495,
+            "index_last_month": 12760,
+            "index_consumption": 265,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 27,
+            "meter_id": "KF_1",
+            "month": "2026-01",
+            "index_prev_month": 61728,
+            "index_last_month": 62087,
+            "index_consumption": 359,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 28,
+            "meter_id": "KT_1",
+            "month": "2026-01",
+            "index_prev_month": 29140,
+            "index_last_month": 29791,
+            "index_consumption": 651,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 29,
+            "meter_id": "NC_1",
+            "month": "2026-01",
+            "index_prev_month": 4193,
+            "index_last_month": 4597,
+            "index_consumption": 404,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 30,
+            "meter_id": "NK_1",
+            "month": "2026-01",
+            "index_prev_month": 53408,
+            "index_last_month": 53755,
+            "index_consumption": 347,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 31,
+            "meter_id": "NT_2",
+            "month": "2026-01",
+            "index_prev_month": 17061,
+            "index_last_month": 17315,
+            "index_consumption": 254,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 32,
+            "meter_id": "PA_1",
+            "month": "2026-01",
+            "index_prev_month": 98509,
+            "index_last_month": 98996,
+            "index_consumption": 487,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 33,
+            "meter_id": "PK_1",
+            "month": "2026-01",
+            "index_prev_month": 16113,
+            "index_last_month": 16518,
+            "index_consumption": 405,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 34,
+            "meter_id": "QA_1",
+            "month": "2026-01",
+            "index_prev_month": 5632,
+            "index_last_month": 6225,
+            "index_consumption": 593,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 35,
+            "meter_id": "QL_1",
+            "month": "2026-01",
+            "index_prev_month": 13839,
+            "index_last_month": 14342,
+            "index_consumption": 503,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 36,
+            "meter_id": "SH_1",
+            "month": "2026-01",
+            "index_prev_month": 100685,
+            "index_last_month": 100685,
+            "index_consumption": 0,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 37,
+            "meter_id": "SL_1",
+            "month": "2026-01",
+            "index_prev_month": 511919,
+            "index_last_month": 512791,
+            "index_consumption": 872,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 38,
+            "meter_id": "SV_1",
+            "month": "2026-01",
+            "index_prev_month": 23308,
+            "index_last_month": 24362,
+            "index_consumption": 1054,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 39,
+            "meter_id": "TA_1",
+            "month": "2026-01",
+            "index_prev_month": 91187,
+            "index_last_month": 93928,
+            "index_consumption": 2741,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 40,
+            "meter_id": "TC_1",
+            "month": "2026-01",
+            "index_prev_month": 132299,
+            "index_last_month": 135705,
+            "index_consumption": 3406,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 41,
+            "meter_id": "TH_1",
+            "month": "2026-01",
+            "index_prev_month": 197020,
+            "index_last_month": 197470,
+            "index_consumption": 450,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 42,
+            "meter_id": "TV_1",
+            "month": "2026-01",
+            "index_prev_month": 80592,
+            "index_last_month": 80875,
+            "index_consumption": 283,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 43,
+            "meter_id": "TW_1",
+            "month": "2026-01",
+            "index_prev_month": 559383,
+            "index_last_month": 560255,
+            "index_consumption": 872,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 44,
+            "meter_id": "VA_1",
+            "month": "2026-01",
+            "index_prev_month": 17945,
+            "index_last_month": 18398,
+            "index_consumption": 453,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 45,
+            "meter_id": "VL_1",
+            "month": "2026-01",
+            "index_prev_month": 23308,
+            "index_last_month": 24362,
+            "index_consumption": 1054,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 46,
+            "meter_id": "VP_1",
+            "month": "2026-01",
+            "index_prev_month": 712440,
+            "index_last_month": 715940,
+            "index_consumption": 3500,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 47,
+            "meter_id": "VP_2",
+            "month": "2026-01",
+            "index_prev_month": 395735,
+            "index_last_month": 399909,
+            "index_consumption": 4174,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 48,
+            "meter_id": "VQ_1",
+            "month": "2026-01",
+            "index_prev_month": 249683,
+            "index_last_month": 251195,
+            "index_consumption": 1512,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 49,
+            "meter_id": "VQ_2",
+            "month": "2026-01",
+            "index_prev_month": 482680,
+            "index_last_month": 484613,
+            "index_consumption": 1933,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 50,
+            "meter_id": "VT_10_T7_CT4",
+            "month": "2026-01",
+            "index_prev_month": 28194,
+            "index_last_month": 28566,
+            "index_consumption": 372,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 51,
+            "meter_id": "VT_11_T6_CT1",
+            "month": "2026-01",
+            "index_prev_month": 256653,
+            "index_last_month": 263049,
+            "index_consumption": 6396,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 52,
+            "meter_id": "VT_12_T6_CT2",
+            "month": "2026-01",
+            "index_prev_month": 621176,
+            "index_last_month": 624056,
+            "index_consumption": 2880,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 53,
+            "meter_id": "VT_13_T5_CT2",
+            "month": "2026-01",
+            "index_prev_month": 161874,
+            "index_last_month": 164464,
+            "index_consumption": 2590,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 54,
+            "meter_id": "VT_14_T2",
+            "month": "2026-01",
+            "index_prev_month": 470426,
+            "index_last_month": 483364,
+            "index_consumption": 12938,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 55,
+            "meter_id": "VT_15_T5_CT1",
+            "month": "2026-01",
+            "index_prev_month": 141926,
+            "index_last_month": 152167,
+            "index_consumption": 10241,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 56,
+            "meter_id": "VT_1_T6_CT2",
+            "month": "2026-01",
+            "index_prev_month": 119489,
+            "index_last_month": 127437,
+            "index_consumption": 7948,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 57,
+            "meter_id": "VT_2_T8_CT1",
+            "month": "2026-01",
+            "index_prev_month": 565080,
+            "index_last_month": 583148,
+            "index_consumption": 18068,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 58,
+            "meter_id": "VT_3_T8_CT2",
+            "month": "2026-01",
+            "index_prev_month": 124448,
+            "index_last_month": 147701,
+            "index_consumption": 23253,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 59,
+            "meter_id": "VT_4_T8_CT3",
+            "month": "2026-01",
+            "index_prev_month": 559396,
+            "index_last_month": 578680,
+            "index_consumption": 19284,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 60,
+            "meter_id": "VT_5_T8_CT4",
+            "month": "2026-01",
+            "index_prev_month": 67645,
+            "index_last_month": 67946,
+            "index_consumption": 301,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 61,
+            "meter_id": "VT_6_T8_CT5",
+            "month": "2026-01",
+            "index_prev_month": 95030,
+            "index_last_month": 96178,
+            "index_consumption": 1148,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 62,
+            "meter_id": "VT_7_T7_CT1",
+            "month": "2026-01",
+            "index_prev_month": 414947,
+            "index_last_month": 422458,
+            "index_consumption": 7511,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 63,
+            "meter_id": "VT_8_T7_CT2",
+            "month": "2026-01",
+            "index_prev_month": 209114,
+            "index_last_month": 212255,
+            "index_consumption": 3141,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 64,
+            "meter_id": "VT_9_T7_CT3",
+            "month": "2026-01",
+            "index_prev_month": 234397,
+            "index_last_month": 238619,
+            "index_consumption": 4222,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 65,
+            "meter_id": "XN_1",
+            "month": "2026-01",
+            "index_prev_month": 216337,
+            "index_last_month": 217714,
+            "index_consumption": 1377,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        },
+        {
+            "reading_id": 66,
+            "meter_id": "YL_1",
+            "month": "2026-01",
+            "index_prev_month": 8476,
+            "index_last_month": 9347,
+            "index_consumption": 871,
+            "image_reading": null,
+            "created_at": "2026-01-26 14:15:00"
+        }
+    ]
+}

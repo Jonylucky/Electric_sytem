@@ -1,0 +1,466 @@
+{
+    "meters": [
+        {
+            "meter_id": "VP_1",
+            "company_id": 32,
+            "meter_name": "VP_1",
+            "location_id": 1,
+            "created_at": null
+        },
+        {
+            "meter_id": "VP_2",
+            "company_id": 32,
+            "meter_name": "VP_2",
+            "location_id": 1,
+            "created_at": null
+        },
+        {
+            "meter_id": "HV_1",
+            "company_id": 36,
+            "meter_name": "HV_1",
+            "location_id": 1,
+            "created_at": null
+        },
+        {
+            "meter_id": "TH_1",
+            "company_id": 34,
+            "meter_name": "TH_1",
+            "location_id": 2,
+            "created_at": null
+        },
+        {
+            "meter_id": "VQ_1",
+            "company_id": 20,
+            "meter_name": "VQ_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "VQ_2",
+            "company_id": 20,
+            "meter_name": "VQ_2",
+            "location_id": 2,
+            "created_at": null
+        },
+        {
+            "meter_id": "AG_1",
+            "company_id": 17,
+            "meter_name": "AG_1",
+            "location_id": 2,
+            "created_at": null
+        },
+        {
+            "meter_id": "AL_1",
+            "company_id": 26,
+            "meter_name": "AL_1",
+            "location_id": 2,
+            "created_at": null
+        },
+        {
+            "meter_id": "AX_1",
+            "company_id": 19,
+            "meter_name": "AX_1",
+            "location_id": 4,
+            "created_at": null
+        },
+        {
+            "meter_id": "AX_3",
+            "company_id": 19,
+            "meter_name": "AX_3",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "AX_4",
+            "company_id": 19,
+            "meter_name": "AX_4",
+            "location_id": 4,
+            "created_at": null
+        },
+        {
+            "meter_id": "AX_5",
+            "company_id": 19,
+            "meter_name": "AX_5",
+            "location_id": 4,
+            "created_at": null
+        },
+        {
+            "meter_id": "AX_6",
+            "company_id": 19,
+            "meter_name": "AX_6",
+            "location_id": 6,
+            "created_at": null
+        },
+        {
+            "meter_id": "FD_1",
+            "company_id": 31,
+            "meter_name": "FD_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "FD_2",
+            "company_id": 31,
+            "meter_name": "FD_2",
+            "location_id": 2,
+            "created_at": null
+        },
+        {
+            "meter_id": "KF_1",
+            "company_id": 12,
+            "meter_name": "KF_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "AF_1",
+            "company_id": 43,
+            "meter_name": "AF_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "QL_1",
+            "company_id": 27,
+            "meter_name": "QL_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "AC_1",
+            "company_id": 37,
+            "meter_name": "AC_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "QA_1",
+            "company_id": 15,
+            "meter_name": "QA_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "ID_1",
+            "company_id": 13,
+            "meter_name": "ID_1",
+            "location_id": 5,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_1_T6_CT2",
+            "company_id": 35,
+            "meter_name": "VT_1_T6_CT2",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_2_T8_CT1",
+            "company_id": 35,
+            "meter_name": "VT_2_T8_CT1",
+            "location_id": 8,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_3_T8_CT2",
+            "company_id": 35,
+            "meter_name": "VT_3_T8_CT2",
+            "location_id": 8,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_4_T8_CT3",
+            "company_id": 35,
+            "meter_name": "VT_4_T8_CT3",
+            "location_id": 8,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_5_T8_CT4",
+            "company_id": 35,
+            "meter_name": "VT_5_T8_CT4",
+            "location_id": 8,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_6_T8_CT5",
+            "company_id": 35,
+            "meter_name": "VT_6_T8_CT5",
+            "location_id": 8,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_7_T7_CT1",
+            "company_id": 35,
+            "meter_name": "VT_7_T7_CT1",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_8_T7_CT2",
+            "company_id": 35,
+            "meter_name": "VT_8_T7_CT2",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_9_T7_CT3",
+            "company_id": 35,
+            "meter_name": "VT_9_T7_CT3",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_10_T7_CT4",
+            "company_id": 35,
+            "meter_name": "VT_10_T7_CT4",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_11_T6_CT1",
+            "company_id": 35,
+            "meter_name": "VT_11_T6_CT1",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_12_T6_CT2",
+            "company_id": 35,
+            "meter_name": "VT_12_T6_CT2",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_13_T5_CT2",
+            "company_id": 35,
+            "meter_name": "VT_13_T5_CT2",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_14_T2",
+            "company_id": 35,
+            "meter_name": "VT_14_T2",
+            "location_id": 11,
+            "created_at": null
+        },
+        {
+            "meter_id": "VT_15_T5_CT1",
+            "company_id": 35,
+            "meter_name": "VT_15_T5_CT1",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "VA_1",
+            "company_id": 2,
+            "meter_name": "VA_1",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "TW_1",
+            "company_id": 4,
+            "meter_name": "TW_1",
+            "location_id": 9,
+            "created_at": null
+        },
+        {
+            "meter_id": "KT_1",
+            "company_id": 39,
+            "meter_name": "KT_1",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "SL_1",
+            "company_id": 28,
+            "meter_name": "SL_1",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "PA_1",
+            "company_id": 41,
+            "meter_name": "PA_1",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "IG_1",
+            "company_id": 3,
+            "meter_name": "IG_1",
+            "location_id": 7,
+            "created_at": null
+        },
+        {
+            "meter_id": "AT_1",
+            "company_id": 18,
+            "meter_name": "AT_1",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "JA_1",
+            "company_id": 24,
+            "meter_name": "JA_1",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "JA_2",
+            "company_id": 24,
+            "meter_name": "JA_2",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "JA_3",
+            "company_id": 24,
+            "meter_name": "JA_3",
+            "location_id": 10,
+            "created_at": null
+        },
+        {
+            "meter_id": "NT_2",
+            "company_id": 22,
+            "meter_name": "NT_2",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "SH_1",
+            "company_id": 23,
+            "meter_name": "SH_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "DT_1",
+            "company_id": 8,
+            "meter_name": "DT_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "NK_1",
+            "company_id": 14,
+            "meter_name": "NK_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "CH_1",
+            "company_id": 5,
+            "meter_name": "CH_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "TA_1",
+            "company_id": 42,
+            "meter_name": "TA_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "VL_1",
+            "company_id": 29,
+            "meter_name": "VL_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "AP_1",
+            "company_id": 10,
+            "meter_name": "AP_1",
+            "location_id": 3,
+            "created_at": null
+        },
+        {
+            "meter_id": "FC_1",
+            "company_id": 6,
+            "meter_name": "FC_1",
+            "location_id": 6,
+            "created_at": null
+        },
+        {
+            "meter_id": "SV_1",
+            "company_id": 30,
+            "meter_name": "SV_1",
+            "location_id": 6,
+            "created_at": null
+        },
+        {
+            "meter_id": "YL_1",
+            "company_id": 1,
+            "meter_name": "YL_1",
+            "location_id": 6,
+            "created_at": null
+        },
+        {
+            "meter_id": "HL_1",
+            "company_id": 38,
+            "meter_name": "HL_1",
+            "location_id": 6,
+            "created_at": null
+        },
+        {
+            "meter_id": "NC_1",
+            "company_id": 7,
+            "meter_name": "NC_1",
+            "location_id": 11,
+            "created_at": null
+        },
+        {
+            "meter_id": "HD_1",
+            "company_id": 33,
+            "meter_name": "HD_1",
+            "location_id": 12,
+            "created_at": null
+        },
+        {
+            "meter_id": "DF_1",
+            "company_id": 16,
+            "meter_name": "DF_1",
+            "location_id": 12,
+            "created_at": null
+        },
+        {
+            "meter_id": "HA_1",
+            "company_id": 11,
+            "meter_name": "HA_1",
+            "location_id": 12,
+            "created_at": null
+        },
+        {
+            "meter_id": "XN_1",
+            "company_id": 40,
+            "meter_name": "XN_1",
+            "location_id": 12,
+            "created_at": null
+        },
+        {
+            "meter_id": "TC_1",
+            "company_id": 25,
+            "meter_name": "TC_1",
+            "location_id": 12,
+            "created_at": null
+        },
+        {
+            "meter_id": "TV_1",
+            "company_id": 9,
+            "meter_name": "TV_1",
+            "location_id": 13,
+            "created_at": null
+        },
+        {
+            "meter_id": "PK_1",
+            "company_id": 21,
+            "meter_name": "PK_1",
+            "location_id": 14,
+            "created_at": null
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/electric_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh
+    username: root
+    password: ""
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: luongthts2302011@fpt.edu.vn
+    password: YOUR_APP_PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Ho_Chi_Minh
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 600MB
+      file-size-threshold: 2MB
+
+  mvc:
+    async:
+      request-timeout: 300000
+
+server:
+  port: 8081
+  tomcat:
+    connection-timeout: 120s
+    max-swallow-size: -1
+    threads:
+      max: 200
+      min-spare: 20
+    accept-count: 200
+    max-connections: 10000
+  compression:
+    enabled: true
+    mime-types: application/json,text/plain,text/html,text/xml,text/css,application/javascript
+    min-response-size: 1024
+
+app:
+  upload-dir: D:/Javafpt/Index_Electric_server/uploads
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.web.multipart: DEBUG
+    org.springframework.boot.autoconfigure.condition: WARN
+    org.apache.coyote.http11: INFO
+    org.apache.tomcat.util.net: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

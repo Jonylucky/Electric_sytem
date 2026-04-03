@@ -1,0 +1,262 @@
+{
+    "companies": [
+        {
+            "company_id": 1,
+            "company_code": "cp_001",
+            "company_name": "CN CÔNG TY TNHH YUSEN LOGISTICS (VIỆT NAM) TẠI TPHCM",
+            "created_at": null
+        },
+        {
+            "company_id": 2,
+            "company_code": "cp_002",
+            "company_name": "CTY CỔ PHẦN LOGISTICS VIETAIR",
+            "created_at": null
+        },
+        {
+            "company_id": 3,
+            "company_code": "cp_003",
+            "company_name": "CTY TNHH QUỐC TẾ IGS",
+            "created_at": null
+        },
+        {
+            "company_id": 4,
+            "company_code": "cp_004",
+            "company_name": "CTY TNHH VẬN CHUYỂN VÀ GIAO NHẬN TOÀN CẦU VIỆT TWA",
+            "created_at": null
+        },
+        {
+            "company_id": 5,
+            "company_code": "cp_005",
+            "company_name": "CÔNG TY CP DỊCH VỤ HÀNG HẢI HÀNG KHÔNG CON CÁ HEO",
+            "created_at": null
+        },
+        {
+            "company_id": 6,
+            "company_code": "cp_006",
+            "company_name": "CÔNG TY CP KỸ THUẬT NỀN MÓNG VÀ CÔNG TRÌNH NGẦM FECON",
+            "created_at": null
+        },
+        {
+            "company_id": 7,
+            "company_code": "cp_007",
+            "company_name": "CÔNG TY CP NPLUS CONCEPT",
+            "created_at": null
+        },
+        {
+            "company_id": 8,
+            "company_code": "cp_008",
+            "company_name": "CÔNG TY CP VẬN TẢI DOLTRUCKS",
+            "created_at": null
+        },
+        {
+            "company_id": 9,
+            "company_code": "cp_009",
+            "company_name": "CÔNG TY CỔ PHẦN SÀI GÒN TRIỂN VỌNG( savista)",
+            "created_at": null
+        },
+        {
+            "company_id": 10,
+            "company_code": "cp_010",
+            "company_name": "CÔNG TY CỔ PHẦN TM GIAO NHẬN HÀNG HÓA APS",
+            "created_at": null
+        },
+        {
+            "company_id": 11,
+            "company_code": "cp_011",
+            "company_name": "CÔNG TY CỔ PHẦN ĐẦU TƯ THƯƠNG MẠI HẢI ÂU T1",
+            "created_at": null
+        },
+        {
+            "company_id": 12,
+            "company_code": "cp_012",
+            "company_name": "CÔNG TY DƯỢC PHẨM TNHH LEUNG KAI FOOK VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 13,
+            "company_code": "cp_013",
+            "company_name": "CÔNG TY HK ĐÔNG DƯƠNG + TOÀN CẦU VN IDAC",
+            "created_at": null
+        },
+        {
+            "company_id": 14,
+            "company_code": "cp_014",
+            "company_name": "CÔNG TY NANKAI",
+            "created_at": null
+        },
+        {
+            "company_id": 15,
+            "company_code": "cp_015",
+            "company_name": "CÔNG TY QATA AIRWAYS",
+            "created_at": null
+        },
+        {
+            "company_id": 16,
+            "company_code": "cp_016",
+            "company_name": "CÔNG TY SP DUTY FREE VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 17,
+            "company_code": "cp_017",
+            "company_name": "CÔNG TY TNHH AGX LOGISTICS ( VIET NAM)",
+            "created_at": null
+        },
+        {
+            "company_id": 18,
+            "company_code": "cp_018",
+            "company_name": "CÔNG TY TNHH ATOTECH VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 19,
+            "company_code": "cp_019",
+            "company_name": "CÔNG TY TNHH AXON ACTIVE ViỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 20,
+            "company_code": "cp_020",
+            "company_name": "CÔNG TY TNHH DỊCH VỤ HÀNG KHÔNG VÉC TƠ QUỐC TẾ",
+            "created_at": null
+        },
+        {
+            "company_id": 21,
+            "company_code": "cp_021",
+            "company_name": "CÔNG TY TNHH DỊCH VỤ THƯƠNG MẠI MAY MẶC PHÚ KHANG",
+            "created_at": null
+        },
+        {
+            "company_id": 22,
+            "company_code": "cp_022",
+            "company_name": "CÔNG TY TNHH GIẢI PHÁP MÔI TRƯỜNG NAM TRINH",
+            "created_at": null
+        },
+        {
+            "company_id": 23,
+            "company_code": "cp_023",
+            "company_name": "CÔNG TY TNHH HÀNG KHÔNG SƠN HẢI",
+            "created_at": null
+        },
+        {
+            "company_id": 24,
+            "company_code": "cp_024",
+            "company_name": "CÔNG TY TNHH JENSSEN AIR AND OCEAN VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 25,
+            "company_code": "cp_025",
+            "company_name": "CÔNG TY TNHH LIÊN KẾT TOÀN CẦU",
+            "created_at": null
+        },
+        {
+            "company_id": 26,
+            "company_code": "cp_026",
+            "company_name": "CÔNG TY TNHH LOGISTICS QUỐC TẾ ALL LINKS - TNR VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 27,
+            "company_code": "cp_027",
+            "company_name": "CÔNG TY TNHH QUANTERM LOGISTICS",
+            "created_at": null
+        },
+        {
+            "company_id": 28,
+            "company_code": "cp_028",
+            "company_name": "CÔNG TY TNHH SEAIR LINKS",
+            "created_at": null
+        },
+        {
+            "company_id": 29,
+            "company_code": "cp_029",
+            "company_name": "CÔNG TY TNHH SMART VISION LAB",
+            "created_at": null
+        },
+        {
+            "company_id": 30,
+            "company_code": "cp_030",
+            "company_name": "CÔNG TY TNHH STRAIGHT VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 31,
+            "company_code": "cp_031",
+            "company_name": "CÔNG TY TNHH THƯƠNG MẠI & DỊCH VỤ GIAO NHẬN HÀNG HÓA F.D.I",
+            "created_at": null
+        },
+        {
+            "company_id": 32,
+            "company_code": "cp_032",
+            "company_name": "CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ĐẠI VIỆT PHÁT",
+            "created_at": null
+        },
+        {
+            "company_id": 33,
+            "company_code": "cp_033",
+            "company_name": "CÔNG TY TNHH TM DV DL HẠNH DUNG",
+            "created_at": null
+        },
+        {
+            "company_id": 34,
+            "company_code": "cp_034",
+            "company_name": "CÔNG TY TNHH TRƯỜNG HÀNG KHÔNG VÀ LOGISTIC VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 35,
+            "company_code": "cp_035",
+            "company_name": "CÔNG TY TNHH VIRTOUS VIỆT NAM",
+            "created_at": null
+        },
+        {
+            "company_id": 36,
+            "company_code": "cp_036",
+            "company_name": "CÔNG TY TNHH XÂY DỰNG THƯƠNG MẠI HỒNG VIỆT",
+            "created_at": null
+        },
+        {
+            "company_id": 37,
+            "company_code": "cp_037",
+            "company_name": "CÔNG TY WORD AIR CARGO",
+            "created_at": null
+        },
+        {
+            "company_id": 38,
+            "company_code": "cp_038",
+            "company_name": "HARVEST FLOBAL FORWARDING ( VIET NAM) CO.,LTD.",
+            "created_at": null
+        },
+        {
+            "company_id": 39,
+            "company_code": "cp_039",
+            "company_name": "LIÊN MINH HÀNG KHÔNG TOÀN CẦU",
+            "created_at": null
+        },
+        {
+            "company_id": 40,
+            "company_code": "cp_040",
+            "company_name": "NGÂN HÀNG TMCP XUẤT NHẬP KHẨU VIỆT NAM - CHI NHÁNH SÀI GÒN",
+            "created_at": null
+        },
+        {
+            "company_id": 41,
+            "company_code": "cp_041",
+            "company_name": "PACHCM",
+            "created_at": null
+        },
+        {
+            "company_id": 42,
+            "company_code": "cp_042",
+            "company_name": "TAKEAWAY CAFÉ",
+            "created_at": null
+        },
+        {
+            "company_id": 43,
+            "company_code": "cp_043",
+            "company_name": "VPĐD HÃNG HÀNG KHÔNG QUỐC TẾ NGA AEROFLOT",
+            "created_at": null
+        }
+    ]
+}

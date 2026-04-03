@@ -1,0 +1,49 @@
+services:
+  # ===============================
+  # MySQL DATABASE CONTAINER
+  # ===============================
+  mysql:
+    image: mysql:8.4
+    container_name: electric-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: electric_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # XÓA DÒNG COMMAND CŨ ĐI
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      interval: 10s
+
+  # ===============================
+  # SPRING BOOT API CONTAINER
+  # ===============================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: electric-api
+    restart: on-failure # Tự bật lại nếu kết nối DB thất bại lúc đầu
+    depends_on:
+      mysql:
+        condition: service_healthy # Đợi MySQL "khỏe" rồi mới chạy
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: electric_db
+      DB_USER: root
+      DB_PASS: ""
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  mysql_data:
