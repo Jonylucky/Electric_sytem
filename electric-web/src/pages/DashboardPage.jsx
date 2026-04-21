@@ -301,18 +301,14 @@ export default function DashboardPage() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Stack
-                direction={{ xs: "column", md: "row" }}
+    <Stack
+                direction={{ xs: "column", sm: "row" }}
                 justifyContent="space-between"
-                alignItems={{ xs: "stretch", md: "center" }}
-                spacing={2}
+                alignItems={{ xs: "stretch", sm: "center" }}
+                spacing={{ xs: 1, md: 2 }}
                 sx={{ mb: 3 }}
             >
-                <Box>
-                    <Typography color="text.secondary">
-                        Theo dõi sản lượng điện, đồng hồ bất thường và tải báo cáo theo tháng.
-                    </Typography>
-                </Box>
+               
 
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                     <TextField
@@ -321,7 +317,7 @@ export default function DashboardPage() {
                         label="Company"
                         value={companyId}
                         onChange={(e) => setCompanyId(e.target.value)}
-                        sx={{ minWidth: 220 }}
+                        sx={{ minWidth: { xs: 180, sm: 220 } }}
                     >
                         {companies.map((item) => (
                             <MenuItem key={item.id} value={item.id}>
@@ -336,7 +332,7 @@ export default function DashboardPage() {
                         label="Month"
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
-                        sx={{ minWidth: 160 }}
+                        sx={{ minWidth: { xs: 140, sm: 160 } }}
                     >
                         {monthOptions.map((item) => (
                             <MenuItem key={item.value} value={item.value}>
@@ -412,7 +408,7 @@ export default function DashboardPage() {
                             <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
                                 Consumption 3 tháng gần nhất
                             </Typography>
-                            <Box sx={{ height: 340 }}>
+                            <Box sx={{ height: { xs: '50vh', sm: 340, md: 400 } }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={monthlyData}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -437,7 +433,7 @@ export default function DashboardPage() {
                             <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
                                 Last Index Trend
                             </Typography>
-                            <Box sx={{ height: 340 }}>
+                            <Box sx={{ height: { xs: '50vh', sm: 340, md: 400 } }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart data={monthlyData}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -509,7 +505,17 @@ export default function DashboardPage() {
                                     <CircularProgress />
                                 </Stack>
                             ) : (
-                                <Table size="small">
+                               <Table
+    size="small"
+    sx={{
+      minWidth: 900,
+      "& .MuiTableCell-root": {
+        px: { xs: 1, md: 2 },
+        py: { xs: 0.75, md: 1.25 },
+        fontSize: { xs: "0.75rem", md: "0.875rem" },
+      },
+    }}
+  >
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center">Ảnh</TableCell>

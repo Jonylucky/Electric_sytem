@@ -66,8 +66,9 @@ export default function ConsumptionChart({ open, onClose, meterId, month }) {
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth="md"
+            maxWidth={false}
             fullWidth
+            fullScreen={{ xs: true, sm: false }}
             PaperProps={{
                 sx: { borderRadius: 3 },
             }}
@@ -115,7 +116,7 @@ export default function ConsumptionChart({ open, onClose, meterId, month }) {
                             <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
                                 Tiêu thụ theo tháng (kWh)
                             </Typography>
-                            <Box sx={{ height: 280 }}>
+                            <Box sx={{ height: { xs: '40vh', sm: 280, md: 320 } }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={chartData.points}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -154,7 +155,7 @@ export default function ConsumptionChart({ open, onClose, meterId, month }) {
                             <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
                                 Chỉ số đồng hồ theo tháng
                             </Typography>
-                            <Box sx={{ height: 280 }}>
+                            <Box sx={{ height: { xs: '40vh', sm: 280, md: 320 } }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart data={chartData.points}>
                                         <CartesianGrid strokeDasharray="3 3" />

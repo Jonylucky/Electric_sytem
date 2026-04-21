@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Responsive utilities */
+@media (orientation: portrait) and (max-height: 600px) {
+  .layout-main {
+    padding: 1rem !important;
+  }
+  
+  .table-container {
+    max-height: 40vh !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .compact-table {
+    font-size: 0.75rem;
+  }
+}
+
+/* Landscape mobile */
+@media (orientation: landscape) and (max-width: 896px) {
+  .sidebar-narrow {
+    width: 70vw !important;
+  }
+}
+

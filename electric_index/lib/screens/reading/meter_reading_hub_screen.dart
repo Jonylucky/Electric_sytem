@@ -11,6 +11,7 @@ import 'package:electric_index/services/qr_excel_exporter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:electric_index/db/dao/meter_reset_dao.dart';
 import 'package:electric_index/screens/meter/reset_screen.dart';
+import 'package:electric_index/screens/meter/meter_closing_screen.dart';
 
 class MeterReadingHubScreen extends StatefulWidget {
   final String meterId;
@@ -134,6 +135,25 @@ class _MeterReadingHubScreenState extends State<MeterReadingHubScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Reset đồng hồ thành công')));
+    }
+  }
+
+  Future<void> _openClosingPage() async {
+    final ok = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => MeterClosingScreen(meterId: widget.meterId),
+      ),
+    );
+
+    if (!mounted) return;
+
+    if (ok == true) {
+      await _load(); // reload lại prevAuto + latest
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Chốt số bàn giao thành công')),
+      );
     }
   }
 
@@ -451,26 +471,38 @@ class _MeterReadingHubScreenState extends State<MeterReadingHubScreen> {
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert),
-            onSelected: (value) {
-              if (value == 'reset') {
-                _openResetSheet();
-              }
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 'reset',
-                child: Row(
-                  children: [
-                    Icon(Icons.restart_alt),
-                    SizedBox(width: 8),
-                    Text('Reset đồng hồ'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        PopupMenuButton<String>(
+  icon: const Icon(Icons.more_vert),
+  onSelected: (value) {
+    if (value == 'reset') {
+      _openResetSheet();
+    } else if (value == 'closing') {
+      _openClosingPage();
+    }
+  },
+  itemBuilder: (context) => const [
+    PopupMenuItem(
+      value: 'closing',
+      child: Row(
+        children: [
+          Icon(Icons.assignment_turned_in),
+          SizedBox(width: 8),
+          Text('Chốt số bàn giao'),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: 'reset',
+      child: Row(
+        children: [
+          Icon(Icons.restart_alt),
+          SizedBox(width: 8),
+          Text('Reset đồng hồ'),
+        ],
+      ),
+    ),
+  ],
+),
         ],
       ),
 

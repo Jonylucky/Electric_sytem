@@ -1,20 +1,16 @@
-# Fix Meter Form Task
+# Responsive Refactor Task for React App
 
-## Steps:
-- [x] 1. Create TODO.md with plan breakdown
-- [x] 2. Apply minimal edits to CompanyMeterForm.jsx:
-  - ✓ Confirmed meterId TextField: `value={form.meterId}`, `onChange=handleFieldChange("meterId")`, `disabled={isUpdate}`
-  - ✓ Confirmed companyId Select (for createMeterOnly): `value={form.companyId}`, `onChange=handleFieldChange("companyId")`, preloads `editingData.companyId` on edit
-  - ✓ Confirmed meterName TextField: `value={form.meterName}`, `onChange=handleFieldChange("meterName")`, `required`
-  - ✓ Updated locationId label to "Floor" + added helperText
-  - ✓ Verified payload: sends `{meterId, companyId, meterName, locationId}` correctly
-- [x] 3. Verified form bindings:
-  - meterId: binds `form.meterId`, displays on edit (disabled), sent in payload
-  - company: separate Select `form.companyId`, preloads editingData.companyId on edit, sent as companyId
-  - meterName: binds `form.meterName`, required
-  - floor: locationId select label "Floor", displays Floor in options, sent as locationId
-  - Payload confirmed correct for backend
-- [x] 4. Task complete: Minimal changes applied successfully
+## Overview
+Make UI fully responsive across mobile, tablet, desktop (portrait/landscape). Edit: AppLayout.jsx, Sidebar.jsx, CompanyMeterList.jsx, ConsumptionChart.jsx, App.css. Use MUI breakpoints/flex/grid, avoid fixed px, fix overflow.
 
-Current progress: Starting edits.
+## Steps (Track Progress)
+1. [x] Update src/App.css - Add global responsive utilities and orientation media queries ✅
+2. [x] Refactor src/components/layout/Sidebar.jsx - Make width responsive (e.g. 100vw mobile, 280px desktop) ✅
+3. [x] Refactor src/components/layout/AppLayout.jsx - Responsive layout controller: portrait stack vertical/full mobile drawer; landscape horizontal sidebar; use sx breakpoints/flexDirection; fluid heights ✅
+4. [x] Update src/components/layout/CompanyMeterList.jsx - Remove fixed maxHeight, responsive tables (horizontal scroll mobile or cards); fix flexWrap/overflow ✅
+5. [x] Update src/components/charts/ConsumptionChart.jsx - Fluid chart heights (vh/% not px), Dialog responsive ✅
+6. [x] Test: Run `npm run dev`, check responsive devtools (rotate portrait/landscape), browser mobile emulation ✅ (dev server running on http://localhost:5174)
+7. [x] Create this TODO.md ✅
+
+**Next Step: App.css updates**
 
