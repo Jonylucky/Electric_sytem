@@ -16,6 +16,7 @@ class CompanyFormScreen extends StatefulWidget {
 
 class _CompanyFormScreenState extends State<CompanyFormScreen> {
   final _nameCtrl = TextEditingController();
+  final _meterIdCtrl = TextEditingController();
   final _meterNameCtrl = TextEditingController();
 
   final _companyDao = CompanyDao();
@@ -23,7 +24,6 @@ class _CompanyFormScreenState extends State<CompanyFormScreen> {
   final _locationDao = LocationsDao();
 
   String autoCode = const Uuid().v4();
-  late final String _meterId;
 
   List<Map<String, dynamic>> _locations = [];
   int? _selectedLocationId;
@@ -32,12 +32,12 @@ class _CompanyFormScreenState extends State<CompanyFormScreen> {
   bool _loading = true;
 
   bool get isEdit => widget.companyId != null;
+  String get _meterId => _meterIdCtrl.text.trim();
 
   @override
   void initState() {
     super.initState();
     _nameCtrl.text = widget.initialName ?? '';
-    _meterId = const Uuid().v4();
     _init();
   }
 
@@ -54,6 +54,7 @@ class _CompanyFormScreenState extends State<CompanyFormScreen> {
   @override
   void dispose() {
     _nameCtrl.dispose();
+    _meterIdCtrl.dispose();
     _meterNameCtrl.dispose();
     super.dispose();
   }
@@ -89,6 +90,12 @@ class _CompanyFormScreenState extends State<CompanyFormScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Nhập meter name nha')));
+      return;
+    }
+    if (!isEdit && _meterId.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Nhập meter ID nha')));
       return;
     }
 
@@ -276,19 +283,12 @@ class _CompanyFormScreenState extends State<CompanyFormScreen> {
                           children: [
                             _sectionTitle('First meter', Icons.electric_meter),
                             const SizedBox(height: 8),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFEAF4FF),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                'Meter ID: $_meterId',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF0D47A1),
-                                ),
+                            TextField(
+                              controller: _meterIdCtrl,
+                              textInputAction: TextInputAction.next,
+                              decoration: _inputDecoration(
+                                label: 'Meter ID *',
+                                icon: Icons.tag,
                               ),
                             ),
                             const SizedBox(height: 12),

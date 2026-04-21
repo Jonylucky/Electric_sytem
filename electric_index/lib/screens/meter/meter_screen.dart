@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:electric_index/db/dao/meter_dao.dart';
 import 'package:electric_index/db/dao/locations_dao.dart';
 import 'package:electric_index/db/dao/company_dao.dart';
-import 'package:uuid/uuid.dart';
 import '../../services/qr_excel_exporter.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -15,13 +14,12 @@ class MeterScreen extends StatefulWidget {
 }
 
 class _MeterScreenState extends State<MeterScreen> {
+  final _meterIdCtrl = TextEditingController();
   final _meterNameCtrl = TextEditingController();
 
   final _companyDao = CompanyDao();
   final _locationDao = LocationsDao();
   final _meterDao = MeterDao();
-
-  late final String _meterId;
 
   List<Map<String, dynamic>> _companies = [];
   List<Map<String, dynamic>> _locations = [];
@@ -34,10 +32,14 @@ class _MeterScreenState extends State<MeterScreen> {
 
   bool get isEdit => widget.meterId != null;
 
+  String get _meterId => _meterIdCtrl.text.trim();
+
   @override
   void initState() {
     super.initState();
-    _meterId = isEdit ? widget.meterId! : const Uuid().v4();
+    if (isEdit) {
+      _meterIdCtrl.text = widget.meterId!;
+    }
     _init();
   }
 
@@ -69,6 +71,7 @@ class _MeterScreenState extends State<MeterScreen> {
 
   @override
   void dispose() {
+    _meterIdCtrl.dispose();
     _meterNameCtrl.dispose();
     super.dispose();
   }
@@ -94,6 +97,13 @@ class _MeterScreenState extends State<MeterScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Chọn company nha')));
+      return;
+    }
+
+    if (!isEdit && _meterId.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Nhập Meter ID')));
       return;
     }
 
@@ -170,7 +180,7 @@ class _MeterScreenState extends State<MeterScreen> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'ID: $_meterId',
+                _meterId.isNotEmpty ? 'ID: $_meterId' : 'ID: (nhập bên dưới)',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.white70,
                   fontWeight: FontWeight.w600,
@@ -206,6 +216,31 @@ class _MeterScreenState extends State<MeterScreen> {
                           padding: const EdgeInsets.all(14),
                           child: Column(
                             children: [
+                              // ===== Meter ID (user nhập khi tạo mới) =====
+                              TextField(
+                                controller: _meterIdCtrl,
+                                readOnly: isEdit,
+                                onChanged: (_) => setState(() {}),
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  labelText: isEdit ? 'Meter ID' : 'Meter ID *',
+                                  prefixIcon: const Icon(
+                                    Icons.tag,
+                                    color: Color(0xFF1565C0),
+                                  ),
+                                  filled: true,
+                                  fillColor: isEdit
+                                      ? Colors.grey.shade100
+                                      : Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 12),
+
                               // ===== Meter name =====
                               TextField(
                                 controller: _meterNameCtrl,

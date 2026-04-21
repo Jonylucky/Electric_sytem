@@ -53,7 +53,7 @@ server:
     min-response-size: 1024
 
 app:
-  upload-dir: D:/Javafpt/Index_Electric_server/uploads
+  upload-dir: D:/Javafpt/Electric_system/Index_Electric_server/uploads
 
 logging:
   level:
