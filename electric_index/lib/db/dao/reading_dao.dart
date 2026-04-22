@@ -5,7 +5,6 @@ import 'package:electric_index/db/dao/meter_reset_dao.dart';
 import 'package:electric_index/models/sync_payload.dart';
 
 class ReadingDao {
-  //block replacemet
   final meterResetReadingService = MeterResetReadingService();
 
   static String _billingMonthFromDate(DateTime d, {int cutoffDay = 20}) {
@@ -16,9 +15,15 @@ class ReadingDao {
     return '${ref.year}-$mm';
   }
 
+  int? _toInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString());
+  }
+
   /// Insert reading (1 meter / 1 month)
-  /// Nếu trùng tháng → replace
-  ///
+  /// Save chính thức đi qua MeterResetReadingService
   Future<void> insertReading({
     required String meterId,
     required String month,
@@ -73,64 +78,64 @@ class ReadingDao {
     final db = await DatabaseHelper.instance.database;
     final res = await db.rawQuery(
       '''
-    SELECT r.*, m.meter_name, m.company_id, c.company_code, c.company_name
-    FROM readings r
-    JOIN meters m ON m.meter_id = r.meter_id
-    JOIN companies c ON c.company_id = m.company_id
-    WHERE r.meter_id = ?
-    ORDER BY r.created_at DESC, r.reading_id DESC
-    LIMIT 1
-  ''',
+      SELECT r.*, m.meter_name, m.company_id, c.company_code, c.company_name
+      FROM readings r
+      JOIN meters m ON m.meter_id = r.meter_id
+      JOIN companies c ON c.company_id = m.company_id
+      WHERE r.meter_id = ?
+      ORDER BY r.created_at DESC, r.reading_id DESC
+      LIMIT 1
+      ''',
       [meterId],
     );
     return res.isNotEmpty ? res.first : null;
   }
 
-  //thêm hàm lấy “baseline prev” = last mới nhất của THÁNG TRƯỚC
+  /// Prev auto cho UI:
+  /// 1) Ưu tiên reading tháng trước
+  /// 2) Nếu không có, chỉ dùng initial_index khi đúng first_billing_month
+  /// 3) Nếu meter có reset vật lý trước hoặc trong tháng này, cộng thêm offset
   Future<int> getBaselinePrevFromPrevMonth({
     required String meterId,
     required String currentMonth, // YYYY-MM
   }) async {
     final db = await DatabaseHelper.instance.database;
 
-    String prevMonth(String ym) {
-      final y = int.parse(ym.substring(0, 4));
-      final m = int.parse(ym.substring(5, 7));
-      final pm = (m == 1) ? 12 : (m - 1);
-      final py = (m == 1) ? (y - 1) : y;
-      return '${py.toString().padLeft(4, '0')}-${pm.toString().padLeft(2, '0')}';
-    }
+    final prevMonth = meterResetReadingService.previousMonth(currentMonth);
 
-    final pm = prevMonth(currentMonth);
-
-    // ✅ 1) baseline = last của FIRST record tháng trước
-    final res = await db.rawQuery(
-      '''
-    SELECT r.index_last_month
-    FROM readings r
-    WHERE r.meter_id = ? AND r.month = ?
-    ORDER BY
-      COALESCE(r.created_at, '9999-12-31 23:59:59') ASC,
-      r.reading_id ASC
-    LIMIT 1
-  ''',
-      [meterId, pm],
+    final prevLast = await meterResetReadingService.getStoredLastByMonth(
+      meterId: meterId,
+      month: prevMonth,
+      db: db,
+      readingType: 'official',
     );
 
-    if (res.isNotEmpty) {
-      return (res.first['index_last_month'] as int?) ?? 0;
+    if (prevLast != null) {
+      return prevLast;
     }
 
-    // ✅ 2) Mode A: nếu không có tháng trước -> lấy initial_index từ meters (thường 0)
-    final mres = await db.query(
+    final meterRows = await db.query(
       'meters',
-      columns: ['initial_index'],
+      columns: ['initial_index', 'first_billing_month'],
       where: 'meter_id = ?',
       whereArgs: [meterId],
       limit: 1,
     );
-    if (mres.isNotEmpty) {
-      return (mres.first['initial_index'] as int?) ?? 0;
+
+    if (meterRows.isEmpty) return 0;
+
+    final row = meterRows.first;
+    final initialIndex = _toInt(row['initial_index']) ?? 0;
+    final firstBillingMonth = row['first_billing_month']?.toString();
+
+    // ✅ Tháng đầu billing của meter/company mới
+    if (firstBillingMonth != null && firstBillingMonth == currentMonth) {
+      final offset = await meterResetReadingService.getOffsetBeforeOrAtMonth(
+        meterId: meterId,
+        month: currentMonth,
+        db: db,
+      );
+      return initialIndex + offset;
     }
 
     return 0;
@@ -139,7 +144,7 @@ class ReadingDao {
   Future<List<Map<String, dynamic>>> getReadingsByCompanyMonth({
     required int companyId,
     required String month,
-    required String conpanyName, // YYYY-MM
+    required String conpanyName,
   }) async {
     final db = await DatabaseHelper.instance.database;
 
@@ -167,9 +172,9 @@ class ReadingDao {
     );
   }
 
-  /// ✅ all_company: readings của tất cả company trong 1 tháng
+  /// all_company: readings của tất cả company trong 1 tháng
   Future<List<Map<String, dynamic>>> getAllCompaniesMonthReadings({
-    required String month, // YYYY-MM
+    required String month,
   }) async {
     final db = await DatabaseHelper.instance.database;
 
@@ -199,7 +204,10 @@ class ReadingDao {
     );
   }
 
-  /// Bản ghi đọc đầu tiên trong tháng (created_at sớm nhất) — dùng cho baseline/official.
+  /// DEPRECATED:
+  /// Không nên dùng nữa.
+  /// Logic baseline chuẩn hiện nằm ở MeterResetReadingService
+  /// + getBaselinePrevFromPrevMonth() của ReadingDao.
   static Future<Map<String, dynamic>?> getFirstReadingOfMonth(
     DatabaseExecutor db,
     String meterId,
@@ -215,7 +223,9 @@ class ReadingDao {
     return rows.isEmpty ? null : rows.first;
   }
 
-  /// Baseline = index_last_month của bản ghi đầu tiên tháng trước.
+  /// DEPRECATED:
+  /// Không nên dùng nữa.
+  /// Hàm cũ này trả 0 khi không có tháng trước, dễ sai với first_billing_month.
   static Future<int> getBaselineFromPrevMonthFirstReading(
     DatabaseExecutor db,
     String meterId,
@@ -238,7 +248,9 @@ class ReadingDao {
     return '${p.year}-${p.month.toString().padLeft(2, '0')}';
   }
 
-  /// Upsert: nếu đã có first record của tháng thì update, không thì insert.
+  /// DEPRECATED:
+  /// Save official reading thật nên đi qua MeterResetReadingService
+  /// để xử lý reset vật lý + first_billing_month đúng.
   static Future<void> upsertOfficialReadingForMonth({
     required DatabaseExecutor db,
     required String meterId,
@@ -246,7 +258,7 @@ class ReadingDao {
     required int indexLastMonth,
     String? imageReading,
     DateTime? createdAt,
-    String readingType = 'normal',
+    String readingType = 'official',
   }) async {
     final nowIso = (createdAt ?? DateTime.now()).toIso8601String();
     final first = await getFirstReadingOfMonth(db, meterId, month);
@@ -286,7 +298,6 @@ class ReadingDao {
   Future<void> deleteReadingAndImage(int readingId) async {
     final db = await DatabaseHelper.instance.database;
 
-    // 1) lấy path ảnh trước
     final rows = await db.query(
       'readings',
       columns: ['image_reading'],
@@ -299,14 +310,12 @@ class ReadingDao {
         ? (rows.first['image_reading'] as String?)
         : null;
 
-    // 2) xoá record DB trước (để không giữ data rác)
     await db.delete(
       'readings',
       where: 'reading_id = ?',
       whereArgs: [readingId],
     );
 
-    // 3) xoá file ảnh (nếu có)
     if (imgPath != null && imgPath.isNotEmpty) {
       final f = File(imgPath);
       if (await f.exists()) {
@@ -361,13 +370,12 @@ class ReadingDao {
     }).toList();
   }
 
-  /// (Optional) Mark local sau khi sync thành công
-  /// Vì DB chưa có synced_at/sync_status, tạm thời đổi reading_type -> OFFICIAL
+  /// Mark local sau khi sync thành công
   Future<void> markMonthSyncedOfficial(String month) async {
     final db = await DatabaseHelper.instance.database;
     await db.update(
       'readings',
-      {'reading_type': 'OFFICIAL'},
+      {'reading_type': 'official'},
       where: 'month = ?',
       whereArgs: [month],
     );
@@ -476,12 +484,12 @@ class ReadingDao {
 
     final rows = await db.rawQuery(
       '''
-    SELECT COUNT(*) AS total
-    FROM meters m
-    WHERE m.status = 'active'
-      AND m.first_billing_month IS NOT NULL
-      AND m.first_billing_month < ?
-    ''',
+      SELECT COUNT(*) AS total
+      FROM meters m
+      WHERE m.status = 'active'
+        AND m.first_billing_month IS NOT NULL
+        AND m.first_billing_month < ?
+      ''',
       [selectedMonth],
     );
 
@@ -496,20 +504,20 @@ class ReadingDao {
 
     final rows = await db.rawQuery(
       '''
-    SELECT m.meter_id
-    FROM meters m
-    WHERE m.status = 'active'
-      AND m.first_billing_month IS NOT NULL
-      AND m.first_billing_month < ?
-      AND NOT EXISTS (
-        SELECT 1
-        FROM readings r
-        WHERE r.meter_id = m.meter_id
-          AND r.month = ?
-          AND r.reading_type = 'official'
-      )
-    ORDER BY m.meter_id ASC
-    ''',
+      SELECT m.meter_id
+      FROM meters m
+      WHERE m.status = 'active'
+        AND m.first_billing_month IS NOT NULL
+        AND m.first_billing_month < ?
+        AND NOT EXISTS (
+          SELECT 1
+          FROM readings r
+          WHERE r.meter_id = m.meter_id
+            AND r.month = ?
+            AND r.reading_type = 'official'
+        )
+      ORDER BY m.meter_id ASC
+      ''',
       [selectedMonth, prevMonth],
     );
 
@@ -527,19 +535,19 @@ class ReadingDao {
 
     final rows = await db.rawQuery(
       '''
-    SELECT COUNT(*) AS total
-    FROM meters m
-    WHERE m.status = 'active'
-      AND m.first_billing_month IS NOT NULL
-      AND m.first_billing_month < ?
-      AND EXISTS (
-        SELECT 1
-        FROM readings r
-        WHERE r.meter_id = m.meter_id
-          AND r.month = ?
-          AND r.reading_type = 'official'
-      )
-    ''',
+      SELECT COUNT(*) AS total
+      FROM meters m
+      WHERE m.status = 'active'
+        AND m.first_billing_month IS NOT NULL
+        AND m.first_billing_month < ?
+        AND EXISTS (
+          SELECT 1
+          FROM readings r
+          WHERE r.meter_id = m.meter_id
+            AND r.month = ?
+            AND r.reading_type = 'official'
+        )
+      ''',
       [selectedMonth, prevMonth],
     );
 

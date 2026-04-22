@@ -12,24 +12,25 @@ class MeterDao {
   }
 
   Future<int> insertMeter({
-    required String meterId,
-    required int companyId,
-    int? locationId,
-    String? meterName,
-  }) async {
-    final db = await DatabaseHelper.instance.database;
+  required String meterId,
+  required int companyId,
+  int? locationId,
+  String? meterName,
+}) async {
+  final db = await DatabaseHelper.instance.database;
 
-    return await db.insert('meters', {
-      'meter_id': meterId,
-      'company_id': companyId,
-      'location_id': locationId,
-      'meter_name': meterName,
-      'status': 'active',
-      'first_billing_month': nextMonthYyyyMm(), // ✅ tháng sau mới ghi
-      'created_at': DateTime.now().toIso8601String(),
-    });
-  }
+  final firstBillingMonth = _billingMonthFromDate(DateTime.now());
 
+  return await db.insert('meters', {
+    'meter_id': meterId,
+    'company_id': companyId,
+    'location_id': locationId,
+    'meter_name': meterName,
+    'status': 'active',
+    'first_billing_month': firstBillingMonth,
+    'created_at': DateTime.now().toIso8601String(),
+  });
+}
   Future<int> updateMeter({
     required String meterId,
     required int companyId,
@@ -239,7 +240,7 @@ class MeterDao {
     }
   }
 
-  String _billingMonthFromDate(DateTime d, {int cutoffDay = 23}) {
+  String _billingMonthFromDate(DateTime d, {int cutoffDay = 20}) {
     final ref = (d.day < cutoffDay)
         ? DateTime(d.year, d.month - 1, 1)
         : DateTime(d.year, d.month, 1);

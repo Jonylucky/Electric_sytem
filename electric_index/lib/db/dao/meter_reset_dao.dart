@@ -6,16 +6,14 @@ class MeterResetReadingService {
     required DatabaseExecutor db,
     required String meterId,
     required String month, // YYYY-MM
-    required int indexLastMonth, // user nhập: physical index
+    required int indexLastMonth, // physical index user nhập
     String? imageReading,
     DateTime? createdAt,
     String readingType = 'official',
   }) async {
     final now = (createdAt ?? DateTime.now()).toIso8601String();
 
-    // ✅ last của tháng trước đã lưu trong readings
-    // meter thường => là physical
-    // meter reset => là logical
+    // 1) Lấy reading official của tháng trước
     final prevLast = await getStoredLastByMonth(
       meterId: meterId,
       month: previousMonth(month),
@@ -23,24 +21,34 @@ class MeterResetReadingService {
       readingType: readingType,
     );
 
-    // ✅ offset áp dụng cho tháng hiện tại
+    // 2) Lấy offset reset áp dụng cho tháng hiện tại
     final offset = await getOffsetBeforeOrAtMonth(
       meterId: meterId,
       month: month,
       db: db,
     );
 
-    // ✅ currentLast sẽ là giá trị lưu thật vào readings.index_last_month
-    // Nếu không reset => offset = 0 => currentLast = physical
-    // Nếu reset => currentLast = physical + offset = logical
+    // 3) Chuẩn hóa last hiện tại:
+    // - meter thường: currentLast = physical
+    // - meter reset:  currentLast = physical + offset
     final currentLast = indexLastMonth + offset;
 
-    final currentPrev = prevLast ?? 0;
-    final consumption = prevLast == null ? 0 : currentLast - currentPrev;
+    // 4) Xác định baseline nếu tháng trước chưa có reading
+    final baseline = await getBaselineForMonth(
+      db: db,
+      meterId: meterId,
+      month: month,
+    );
+
+    // 5) prev ưu tiên theo reading tháng trước, nếu không có thì dùng baseline
+    final currentPrev = prevLast ?? baseline;
+
+    final consumption = currentLast - currentPrev;
 
     if (consumption < 0) {
       throw Exception(
-        'Consumption âm bất thường: meter=$meterId, month=$month, currentLast=$currentLast, prevLast=$currentPrev',
+        'Consumption âm bất thường: meter=$meterId, month=$month, '
+        'currentLast=$currentLast, currentPrev=$currentPrev',
       );
     }
 
@@ -56,7 +64,7 @@ class MeterResetReadingService {
       [meterId, month, readingType],
     );
 
-    final payload = {
+    final payload = <String, Object?>{
       'meter_id': meterId,
       'month': month,
       'index_prev_month': currentPrev,
@@ -75,22 +83,45 @@ class MeterResetReadingService {
 
       await db.update(
         'readings',
-        {
-          'index_prev_month': currentPrev,
-          'index_last_month': currentLast,
-          'index_consumption': consumption,
-          'image_reading': imageReading,
-          'reading_type': readingType,
-          'created_at': now,
-        },
+        payload,
         where: 'reading_id = ?',
         whereArgs: [readingId],
       );
     }
+  }
 
-    // ✅ Với schema hiện tại không lưu physical riêng,
-    // nên KHÔNG recalc tháng sau tự động được an toàn.
-    // Vì tháng sau đang lưu giá trị đã chuẩn hóa rồi, không còn raw physical để tính lại.
+  /// Baseline cho tháng hiện tại:
+  /// - nếu là first_billing_month => dùng initial_index
+  /// - nếu không => fallback 0
+  ///
+  /// Lưu ý:
+  /// prev của tháng bình thường sẽ lấy từ reading tháng trước.
+  /// Hàm này chỉ dùng khi KHÔNG có reading tháng trước.
+  Future<int> getBaselineForMonth({
+    required DatabaseExecutor db,
+    required String meterId,
+    required String month,
+  }) async {
+    final meterRows = await db.query(
+      'meters',
+      columns: ['initial_index', 'first_billing_month'],
+      where: 'meter_id = ?',
+      whereArgs: [meterId],
+      limit: 1,
+    );
+
+    if (meterRows.isEmpty) return 0;
+
+    final row = meterRows.first;
+    final initialIndex = _toInt(row['initial_index']) ?? 0;
+    final firstBillingMonth = row['first_billing_month']?.toString();
+
+    // ✅ tháng đầu billing của meter/company mới
+    if (firstBillingMonth != null && firstBillingMonth == month) {
+      return initialIndex;
+    }
+
+    return 0;
   }
 
   Future<void> createResetAtMonth({
@@ -103,7 +134,7 @@ class MeterResetReadingService {
     final resetMonth =
         '${resetDate.year}-${resetDate.month.toString().padLeft(2, '0')}';
 
-    // ✅ lấy offset của các reset TRƯỚC tháng này, không lấy chính tháng này
+    // Lấy offset của các reset trước tháng này, không lấy chính tháng này
     final previousOffset = await getOffsetBeforeMonth(
       meterId: meterId,
       month: resetMonth,
@@ -124,7 +155,7 @@ class MeterResetReadingService {
       [meterId, resetMonth],
     );
 
-    final payload = {
+    final payload = <String, Object?>{
       'meter_id': meterId,
       'reset_date': resetDate.toIso8601String(),
       'reset_month': resetMonth,
@@ -146,12 +177,6 @@ class MeterResetReadingService {
         whereArgs: [id],
       );
     }
-
-    // ✅ Không recalc reading ở đây.
-    // Với schema hiện tại không có raw physical lưu riêng,
-    // recalc tháng reset / tháng sau có thể sai.
-    // Hãy tạo reset trước, rồi khi user ghi số tháng đó/tháng sau
-    // thì upsertOfficialReadingForMonth() sẽ tự áp offset đúng.
   }
 
   Future<int?> getStoredLastByMonth({
@@ -176,10 +201,7 @@ class MeterResetReadingService {
 
     if (res.isEmpty) return null;
 
-    final v = res.first['index_last_month'];
-    if (v is int) return v;
-    if (v is num) return v.toInt();
-    return int.tryParse('$v');
+    return _toInt(res.first['index_last_month']);
   }
 
   Future<int> getOffsetBeforeOrAtMonth({
@@ -203,10 +225,7 @@ class MeterResetReadingService {
 
     if (res.isEmpty) return 0;
 
-    final v = res.first['offset_after_reset'];
-    if (v is int) return v;
-    if (v is num) return v.toInt();
-    return int.tryParse('$v') ?? 0;
+    return _toInt(res.first['offset_after_reset']) ?? 0;
   }
 
   Future<int> getOffsetBeforeMonth({
@@ -230,10 +249,14 @@ class MeterResetReadingService {
 
     if (res.isEmpty) return 0;
 
-    final v = res.first['offset_after_reset'];
+    return _toInt(res.first['offset_after_reset']) ?? 0;
+  }
+
+  int? _toInt(dynamic v) {
+    if (v == null) return null;
     if (v is int) return v;
     if (v is num) return v.toInt();
-    return int.tryParse('$v') ?? 0;
+    return int.tryParse(v.toString());
   }
 
   String previousMonth(String month) {

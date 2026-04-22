@@ -34,6 +34,13 @@ class _MeterScreenState extends State<MeterScreen> {
 
   String get _meterId => _meterIdCtrl.text.trim();
 
+  bool get _canCreateMeterToday {
+    final now = DateTime.now();
+    return now.day >= 21;
+  }
+
+  bool get _isCreateBlocked => !isEdit && !_canCreateMeterToday;
+
   @override
   void initState() {
     super.initState();
@@ -91,6 +98,15 @@ class _MeterScreenState extends State<MeterScreen> {
   }
 
   Future<void> _save() async {
+    if (_isCreateBlocked) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Chỉ được tạo đồng hồ từ ngày 21 trở đi'),
+        ),
+      );
+      return;
+    }
+
     final meterName = _meterNameCtrl.text.trim();
 
     if (_selectedCompanyId == null) {
@@ -111,7 +127,6 @@ class _MeterScreenState extends State<MeterScreen> {
     setState(() => _saving = true);
 
     try {
-      // 1) Save meter
       if (isEdit) {
         await _meterDao.updateMeter(
           meterId: _meterId,
@@ -128,7 +143,6 @@ class _MeterScreenState extends State<MeterScreen> {
         );
       }
 
-      // 2) ✅ Chỉ Export + Share khi TẠO MỚI (không share khi edit)
       if (!isEdit) {
         final exporter = QrExcelExporter(meterDao: _meterDao);
         final companyName = _getSelectedCompanyName();
@@ -136,7 +150,7 @@ class _MeterScreenState extends State<MeterScreen> {
         final filePath = await exporter.exportMetersQrExcel(
           companyId: _selectedCompanyId!,
           companyName: companyName,
-          highlightMeterId: _meterId, // ✅ đánh dấu NEW meter vừa tạo
+          highlightMeterId: _meterId,
         );
 
         if (!mounted) return;
@@ -174,18 +188,31 @@ class _MeterScreenState extends State<MeterScreen> {
         foregroundColor: Colors.white,
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(30),
+          preferredSize: const Size.fromHeight(54),
           child: Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _meterId.isNotEmpty ? 'ID: $_meterId' : 'ID: (nhập bên dưới)',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w600,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _meterId.isNotEmpty ? 'ID: $_meterId' : 'ID: (nhập bên dưới)',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
+                if (_isCreateBlocked) ...[
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Chỉ được tạo đồng hồ từ ngày 21 trở đi',
+                    style: TextStyle(
+                      color: Colors.amberAccent,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ),
@@ -206,6 +233,35 @@ class _MeterScreenState extends State<MeterScreen> {
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
+                      if (_isCreateBlocked)
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: Colors.orange.shade200),
+                          ),
+                          child: const Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.info_outline, color: Colors.orange),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'Hiện chưa tới ngày 21 nên chưa thể tạo đồng hồ mới. '
+                                  'Bạn vẫn có thể quay lại sau.',
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    height: 1.35,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                       Card(
                         elevation: 3,
                         shadowColor: Colors.blue.withOpacity(0.15),
@@ -216,7 +272,6 @@ class _MeterScreenState extends State<MeterScreen> {
                           padding: const EdgeInsets.all(14),
                           child: Column(
                             children: [
-                              // ===== Meter ID (user nhập khi tạo mới) =====
                               TextField(
                                 controller: _meterIdCtrl,
                                 readOnly: isEdit,
@@ -241,7 +296,6 @@ class _MeterScreenState extends State<MeterScreen> {
 
                               const SizedBox(height: 12),
 
-                              // ===== Meter name =====
                               TextField(
                                 controller: _meterNameCtrl,
                                 textInputAction: TextInputAction.next,
@@ -262,7 +316,6 @@ class _MeterScreenState extends State<MeterScreen> {
 
                               const SizedBox(height: 12),
 
-                              // ===== Company: ô đóng dùng ellipsis tránh tràn =====
                               DropdownButtonFormField<int>(
                                 value: _selectedCompanyId,
                                 isExpanded: true,
@@ -320,7 +373,6 @@ class _MeterScreenState extends State<MeterScreen> {
 
                               const SizedBox(height: 12),
 
-                              // ===== Location: ô đóng dùng ellipsis tránh tràn =====
                               DropdownButtonFormField<int?>(
                                 value: _selectedLocationId,
                                 isExpanded: true,
@@ -412,7 +464,7 @@ class _MeterScreenState extends State<MeterScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onPressed: _saving ? null : _save,
+                          onPressed: (_saving || _isCreateBlocked) ? null : _save,
                           child: _saving
                               ? const SizedBox(
                                   width: 22,

@@ -15,9 +15,6 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
   bool _saving = false;
 
   Map<String, dynamic>? _meter;
-  List<Map<String, dynamic>> _companies = [];
-
-  int? _selectedCompanyId;
   final TextEditingController _closingCtrl = TextEditingController();
 
   String _billingMonth = _currentMonth();
@@ -65,16 +62,10 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
         [widget.meterId],
       );
 
-      final companies = await db.query(
-        'companies',
-        orderBy: 'company_name ASC',
-      );
-
       if (!mounted) return;
 
       setState(() {
         _meter = meter.isNotEmpty ? meter.first : null;
-        _companies = companies;
         _loading = false;
       });
     } catch (e) {
@@ -85,19 +76,8 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
   }
 
   Future<void> _save() async {
-    final currentCompanyId = _toInt(_meter?['company_id']);
     final latestLast = _toInt(_meter?['latest_index_last']) ?? 0;
     final closingIndex = int.tryParse(_closingCtrl.text.trim());
-
-    if (_selectedCompanyId == null) {
-      _snack('Chọn công ty mới');
-      return;
-    }
-
-    if (currentCompanyId != null && _selectedCompanyId == currentCompanyId) {
-      _snack('Công ty mới phải khác công ty hiện tại');
-      return;
-    }
 
     if (closingIndex == null) {
       _snack('Nhập số chốt hợp lệ');
@@ -123,7 +103,6 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
         await txn.update(
           'meters',
           {
-            'company_id': _selectedCompanyId,
             'initial_index': closingIndex,
             'first_billing_month': _billingMonth,
           },
@@ -180,7 +159,6 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
   Widget build(BuildContext context) {
     final companyName = _meter?['company_name']?.toString() ?? '—';
     final latestLast = _toInt(_meter?['latest_index_last']) ?? 0;
-    final currentCompanyId = _toInt(_meter?['company_id']);
 
     return Scaffold(
       backgroundColor: const Color(0xFFE3F2FD),
@@ -244,55 +222,6 @@ class _MeterClosingScreenState extends State<MeterClosingScreen> {
                                 ],
                               ),
                             ),
-                          ),
-
-                          const SizedBox(height: 14),
-
-                          DropdownButtonFormField<int>(
-                            value: _selectedCompanyId,
-                            isExpanded: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Công ty mới',
-                              border: OutlineInputBorder(),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                            items: _companies
-                                .where((c) {
-                                  final cid = _toInt(c['company_id']);
-                                  return cid != null && cid != currentCompanyId;
-                                })
-                                .map((c) {
-                                  return DropdownMenuItem<int>(
-                                    value: _toInt(c['company_id']),
-                                    child: Text(
-                                      c['company_name']?.toString() ?? '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  );
-                                })
-                                .toList(),
-                            selectedItemBuilder: (context) {
-                              final filtered = _companies.where((c) {
-                                final cid = _toInt(c['company_id']);
-                                return cid != null && cid != currentCompanyId;
-                              }).toList();
-
-                              return filtered.map((c) {
-                                return Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    c['company_name']?.toString() ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList();
-                            },
-                            onChanged: (v) {
-                              setState(() => _selectedCompanyId = v);
-                            },
                           ),
 
                           const SizedBox(height: 12),
