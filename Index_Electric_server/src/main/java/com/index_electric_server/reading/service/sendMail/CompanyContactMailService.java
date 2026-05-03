@@ -96,36 +96,51 @@ public class CompanyContactMailService {
 
     private String buildContent(String companyName, String rawContent, boolean html) {
         if (html) {
-            // Thay đổi cấu trúc HTML để chuyên nghiệp hơn (có khung, màu sắc tinh tế)
             return """
-                <html>
-                  <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333;">
-                    <div style="max-width: 600px; margin: 20px auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 8px;">
-                      <p style="margin-top: 0;">Kính gửi Quý đối tác <b>%s</b>,</p>
-                      
-                      <div style="margin: 20px 0; white-space: pre-line;">
-                        %s
-                      </div>
-                      
-                      <p style="margin-bottom: 5px;">Trân trọng,</p>
-                      <p style="font-weight: bold; color: #0056b3; margin-top: 0;">Đội ngũ CSKH</p>
-                      
-                      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-                      <p style="font-size: 12px; color: #888;">Đây là email tự động, vui lòng không phản hồi trực tiếp vào email này.</p>
-                    </div>
-                  </body>
-                </html>
-                """.formatted(companyName, rawContent);
+            <html>
+              <body style="margin:0; padding:0; font-family:'Segoe UI', Arial, sans-serif; line-height:1.6; color:#333;">
+                <div style="max-width:650px; margin:20px auto; padding:25px; border:1px solid #e0e0e0; border-radius:8px;">
+                  
+                  <p>Kính gửi Quý đối tác <b>%s</b>,</p>
+
+                  <p>
+                    Chúng tôi xin gửi đến Quý đối tác thông tin chỉ số điện tháng này của các đồng hồ thuộc Quý công ty như sau:
+                  </p>
+
+                  <div style="margin:20px 0; white-space:pre-line;">
+                    %s
+                  </div>
+
+                  <p>
+                    Kính mong Quý đối tác vui lòng kiểm tra và phản hồi xác nhận lại thông tin chỉ số điện nêu trên qua email.
+                  </p>
+
+                  <p>
+                    Nếu có sai lệch, vui lòng phản hồi kèm theo mã đồng hồ và nội dung cần điều chỉnh.
+                  </p>
+
+                  <p>Trân trọng,</p>
+                  <p style="font-weight:bold; color:#0056b3;">Bộ phận Chăm sóc Khách hàng</p>
+
+                </div>
+              </body>
+            </html>
+            """.formatted(companyName, rawContent);
         }
 
-        // Bản văn bản thuần (Plain Text) cũng cần chỉn chu
         return """
-            Kính gửi Quý đối tác %s,
+        Kính gửi Quý đối tác %s,
 
-            %s
+        Chúng tôi xin gửi đến Quý đối tác thông tin chỉ số điện tháng này của các đồng hồ thuộc Quý công ty như sau:
 
-            Trân trọng,
-            Đội ngũ CSKH
-            """.formatted(companyName, rawContent);
+        %s
+
+        Kính mong Quý đối tác vui lòng kiểm tra và phản hồi xác nhận lại thông tin chỉ số điện nêu trên qua email.
+
+        Nếu có sai lệch, vui lòng phản hồi kèm theo mã đồng hồ và nội dung cần điều chỉnh.
+
+        Trân trọng,
+        Bộ phận Chăm sóc Khách hàng
+        """.formatted(companyName, rawContent);
     }
 }

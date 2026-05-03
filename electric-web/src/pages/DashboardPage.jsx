@@ -7,6 +7,7 @@ import {
     CardContent,
     Button,
     TextField,
+    Autocomplete,
     MenuItem,
     Chip,
     Stack,
@@ -43,6 +44,8 @@ import ElectricMeterIcon from "@mui/icons-material/ElectricMeter";
 import CloseIcon from "@mui/icons-material/Close";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import EmailIcon from "@mui/icons-material/Email";
+import Snackbar from "@mui/material/Snackbar";
 import dayjs from "dayjs";
 import { saveAs } from "file-saver";
 import { getCompanies } from "../api/companyApi";
@@ -50,6 +53,7 @@ import { getMeters } from "../api/meterApi";
 import { getReadingsByMonth, getAllAlerts } from "../api/readingApi";
 import { exportCompanyReportZip } from "../api/exportApi";
 import ConsumptionChart from "../components/charts/ConsumptionChart";
+import { sendMailByCompanyId } from "../api/mailApi";
 
 function StatusChip({ status }) {
     const color =
@@ -99,11 +103,34 @@ function inferStatus(current, previous) {
     return "NORMAL";
 }
 
+function stripSearchDiacritics(str) {
+    return String(str ?? "")
+        .normalize("NFD")
+        .replace(/\p{M}/gu, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "d")
+        .toLowerCase();
+}
+
+function companyOptionLabel(c) {
+    if (!c) return "";
+    return c.code ? `${c.label} (${c.code})` : c.label;
+}
+
+function matchesCompanySearch(c, debouncedInput) {
+    const trimmed = debouncedInput.trim();
+    if (!trimmed) return true;
+    const parts = trimmed.split(/\s+/).map((p) => stripSearchDiacritics(p)).filter(Boolean);
+    if (parts.length === 0) return true;
+    const haystack = `${stripSearchDiacritics(c.label)} ${stripSearchDiacritics(c.code)}`;
+    return parts.every((p) => haystack.includes(p));
+}
+
 function normalizeCompany(raw) {
-    return {
-        id: String(raw.companyId ?? raw.id ?? ""),
-        label: raw.companyName ?? raw.name ?? `Company ${raw.companyId ?? raw.id ?? ""}`,
-    };
+    const id = String(raw.companyId ?? raw.id ?? "");
+    const label = raw.companyName ?? raw.name ?? `Company ${raw.companyId ?? raw.id ?? ""}`;
+    const code = raw.companyCode != null && raw.companyCode !== "" ? String(raw.companyCode) : "";
+    return { id, label, code };
 }
 
 function normalizeMeter(raw) {
@@ -150,6 +177,8 @@ export default function DashboardPage() {
     const [month, setMonth] = useState(monthOptions[0].value);
     const [companies, setCompanies] = useState([]);
     const [companyId, setCompanyId] = useState("");
+    const [companyInputValue, setCompanyInputValue] = useState("");
+    const [debouncedCompanyQuery, setDebouncedCompanyQuery] = useState("");
     const [meters, setMeters] = useState([]);
     const [readingRows, setReadingRows] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -158,19 +187,40 @@ export default function DashboardPage() {
     const [hoverImage, setHoverImage] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [zoom, setZoom] = useState(1);
-    const [chartDialog, setChartDialog] = useState({ open: false, meterId: "", month: "" });
+const [chartDialog, setChartDialog] = useState({ open: false, meterId: "", month: "" });
     const [alertsData, setAlertsData] = useState(null);
     const [loadingAlerts, setLoadingAlerts] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
     useEffect(() => {
         loadCompanies();
     }, []);
 
     useEffect(() => {
+        const t = setTimeout(() => setDebouncedCompanyQuery(companyInputValue), 300);
+        return () => clearTimeout(t);
+    }, [companyInputValue]);
+
+    useEffect(() => {
+        const sel = companies.find((c) => c.id === companyId);
+        setCompanyInputValue(sel ? companyOptionLabel(sel) : "");
+    }, [companyId, companies]);
+
+    useEffect(() => {
         if (companyId) {
             loadDashboardData(companyId, month);
         }
     }, [companyId, month]);
+
+    const companyAutocompleteOptions = useMemo(() => {
+        const filtered = companies.filter((c) => matchesCompanySearch(c, debouncedCompanyQuery));
+        const selected = companies.find((c) => c.id === companyId);
+        if (selected && !filtered.some((c) => c.id === selected.id)) {
+            return [selected, ...filtered];
+        }
+        return filtered;
+    }, [companies, debouncedCompanyQuery, companyId]);
 
     async function loadAlertsData() {
         try {
@@ -232,7 +282,7 @@ export default function DashboardPage() {
         }
     }
 
-    async function handleExportZip() {
+async function handleExportZip() {
         if (!companyId || !month) return;
         try {
             setExporting(true);
@@ -243,6 +293,37 @@ export default function DashboardPage() {
             console.error(err);
         } finally {
             setExporting(false);
+        }
+    }
+
+    // Generate content from readingRows as table text format
+    const generatedReadingContent = useMemo(() => {
+        if (!readingRows.length) return "";
+        const header = "Meter ID | Tên đồng hồ | Prev | Present | Consumption | Status";
+const separator = "-".repeat(80);
+        const rows = readingRows.map(row =>
+            `${row.meterId} | ${row.meterName} | ${Number(row.prev || 0).toLocaleString()} | ${Number(row.present || 0).toLocaleString()} | ${Number(row.consumption || 0).toLocaleString()} | ${row.alertLevel || "NORMAL"}`
+        ).join("\n");
+        return `${header}\n${separator}\n${rows}`;
+    }, [readingRows]);
+
+    async function handleSendMail() {
+        if (!companyId || !month) return;
+        try {
+            setSending(true);
+            await sendMailByCompanyId({
+                companyId,
+                month,
+                subject: `Xác nhận chỉ số điện tháng ${month}`,
+                content: generatedReadingContent,
+                html: true,
+            });
+            setSnackbar({ open: true, message: "Gửi mail thành công!", severity: "success" });
+        } catch (err) {
+            console.error("Gửi mail thất bại:", err);
+            setSnackbar({ open: true, message: "Gửi mail thất bại.", severity: "error" });
+        } finally {
+            setSending(false);
         }
     }
 
@@ -311,20 +392,30 @@ export default function DashboardPage() {
                
 
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
-                    <TextField
-                        select
+                    <Autocomplete
                         size="small"
-                        label="Company"
-                        value={companyId}
-                        onChange={(e) => setCompanyId(e.target.value)}
-                        sx={{ minWidth: { xs: 180, sm: 220 } }}
-                    >
-                        {companies.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
-                                {item.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                        options={companyAutocompleteOptions}
+                        value={companies.find((c) => c.id === companyId) ?? null}
+                        onChange={(_, newValue) => {
+                            if (newValue) setCompanyId(newValue.id);
+                        }}
+                        inputValue={companyInputValue}
+                        onInputChange={(_, newInputValue, reason) => {
+                            if (reason === "reset") {
+                                const sel = companies.find((c) => c.id === companyId);
+                                setCompanyInputValue(sel ? companyOptionLabel(sel) : "");
+                                return;
+                            }
+                            setCompanyInputValue(newInputValue);
+                        }}
+                        getOptionLabel={(option) => companyOptionLabel(option)}
+                        isOptionEqualToValue={(a, b) => a.id === b.id}
+                        filterOptions={(opts) => opts}
+                        disableClearable
+                        ListboxProps={{ style: { maxHeight: 320 } }}
+                        renderInput={(params) => <TextField {...params} label="Company" />}
+                        sx={{ minWidth: { xs: 180, sm: 260 } }}
+                    />
 
                     <TextField
                         select
@@ -341,13 +432,23 @@ export default function DashboardPage() {
                         ))}
                     </TextField>
 
-                    <Button
+<Button
                         variant="contained"
                         startIcon={exporting ? <CircularProgress size={16} color="inherit" /> : <DownloadIcon />}
                         onClick={handleExportZip}
                         disabled={!companyId || exporting}
                     >
                         {exporting ? "Đang tải..." : "Export ZIP"}
+                    </Button>
+
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={sending ? <CircularProgress size={16} color="inherit" /> : <EmailIcon />}
+                        onClick={handleSendMail}
+                        disabled={!companyId || !month || sending}
+                    >
+                        {sending ? "Đang gửi..." : "Gửi mail xác nhận"}
                     </Button>
 
                     <Button
@@ -708,13 +809,29 @@ export default function DashboardPage() {
                 </Box>
             </Dialog>
 
-            {/* Consumption Chart Dialog */}
+{/* Consumption Chart Dialog */}
             <ConsumptionChart
                 open={chartDialog.open}
                 onClose={() => setChartDialog({ open: false, meterId: "", month: "" })}
                 meterId={chartDialog.meterId}
                 month={chartDialog.month}
             />
+
+            {/* Snackbar for success/error messages */}
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+                    severity={snackbar.severity}
+                    sx={{ width: "100%" }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }
