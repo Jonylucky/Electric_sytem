@@ -19,7 +19,8 @@ public class CorsConfig {
                                 "http://localhost",
                                 "http://127.0.0.1",
                                 "http://localhost:5174",
-                                "http://localhost:5173"
+                                "http://localhost:5173",
+                                "http://localhost:8080"
                         )
                         .allowedMethods("*")
                         .allowedHeaders("*")

@@ -19,4 +19,5 @@ public interface CompanyContactRepository extends JpaRepository<CompanyContact, 
     boolean existsByCompanyCompanyIdAndEmail(Long companyId, String email);
 
     List<CompanyContact> findByContactTypeAndIsActiveTrue(String contactType);
+    List<CompanyContact> findByCompany_CompanyId(Long companyId);
 }

@@ -13,10 +13,12 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 const menuItems = [
     { text: 'Dashboard', path: '/dashboard', icon: DashboardIcon },
     { text: 'Company Meters', path: '/company-meter', icon: TableChartIcon },
+    { text: 'Liên hệ công ty', path: '/company-contacts', icon: ContactPhoneIcon },
     { text: 'Company', path: '/company', icon: BusinessIcon },
     { text: 'Meter', path: '/meter', icon: StraightenIcon },
     { text: 'Report', path: '/report', icon: AssessmentIcon },

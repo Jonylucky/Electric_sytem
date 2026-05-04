@@ -7,8 +7,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: luongthts2302011@fpt.edu.vn
-    password: "gaua lxrd uwdd plmd"
+    username: haiaubulding39b@gmail.com
+    password: "swci nvje rusy ltnb"
     properties:
       mail:
         smtp:
@@ -53,7 +53,7 @@ server:
     min-response-size: 1024
 
 app:
-  upload-dir: D:\code\Electric_sytem\Index_Electric_server\uploads
+  upload-dir: D:\electric_docker\deliver\uploads
 
 
 logging:
