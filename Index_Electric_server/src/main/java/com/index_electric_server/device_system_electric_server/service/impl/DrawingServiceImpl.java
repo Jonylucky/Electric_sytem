@@ -80,8 +80,7 @@ public class DrawingServiceImpl implements DrawingService {
                     .panelId(panel.getPanelId())
                     .panelCode(panel.getPanelCode())
                     .panelName(panel.getPanelName())
-                    .panelType(panel.getPanelType())
-                    .floorLabel(panel.getFloorLabel())
+
                     .ratedCurrentA(panel.getRatedCurrentA())
                     .status(panel.getStatus())
                     .xPercent(coord.getXPercent())

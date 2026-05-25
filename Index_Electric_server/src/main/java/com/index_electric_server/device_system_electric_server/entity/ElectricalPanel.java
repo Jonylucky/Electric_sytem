@@ -1,6 +1,7 @@
 package com.index_electric_server.device_system_electric_server.entity;
 
 import com.index_electric_server.device_system_electric_server.enums.Status;
+import com.index_electric_server.reading.entity.Location;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,8 +50,9 @@ public class ElectricalPanel {
     @Column(name = "panel_name", nullable = false, length = 255)
     private String panelName;
 
-    @Column(name = "panel_type", length = 100)
-    private String panelType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "panel_type_id", nullable = false)
+    private PanelType panelType;
 
     @Column(name = "rated_current_a", precision = 12, scale = 2)
     private BigDecimal ratedCurrentA;
@@ -58,9 +60,9 @@ public class ElectricalPanel {
     @Column(name = "rated_voltage", length = 50)
     private String ratedVoltage;
 
-    @Column(name = "floor_label", length = 50)
-    private String floorLabel;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
     @Column(name = "area_served", length = 255)
     private String areaServed;
 

@@ -3,9 +3,12 @@ import 'package:electric_index/db/dao/database_helper.dart';
 import 'package:electric_index/screens/home/home_screen.dart';
 
 import 'package:electric_index/db/seed/db_seeder.dart';
+import 'package:electric_index/services/api_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await ApiConfig.init();
 
   final db = await DatabaseHelper.instance.database;
 

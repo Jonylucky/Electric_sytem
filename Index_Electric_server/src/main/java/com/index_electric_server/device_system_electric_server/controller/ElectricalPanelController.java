@@ -71,7 +71,7 @@ public class ElectricalPanelController {
         panel.setPanelType(body.getPanelType());
         panel.setRatedCurrentA(body.getRatedCurrentA());
         panel.setRatedVoltage(body.getRatedVoltage());
-        panel.setFloorLabel(body.getFloorLabel());
+
         panel.setAreaServed(body.getAreaServed());
         panel.setStatus(body.getStatus());
         panel.setNotes(body.getNotes());
