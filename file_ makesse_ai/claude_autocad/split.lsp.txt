@@ -1,0 +1,49 @@
+;; =====================================================
+;;  SPLITFLOORS_FIX.lsp (Bỏ qua hoàn toàn hộp thoại CAD Đức)
+;; =====================================================
+(vl-load-com)
+
+(defun c:SPLITFLOORS (/ outFolder layouts lay layoutName fullPath doc ss)
+  (vl-load-com)
+  
+  ;; Thư mục đầu ra của bạn
+  (setq outFolder "D:\\code\\Electric_sytem\\file_ makesse_ai\\claude_autocad\\")
+
+  (setq doc (vla-get-activedocument (vlax-get-acad-object)))
+  (setq layouts (vla-get-layouts doc))
+
+  (princ "\n=== BAT DAU TACH FILE DWG BANG THUAT TOAN WBLOCK ===")
+
+  (vlax-for lay layouts
+    (setq layoutName (vla-get-name lay))
+    ;; Bỏ qua Model, chỉ xử lý Layout
+    (if (/= layoutName "Model")
+      (progn
+        (setq fullPath (strcat outFolder layoutName ".dwg"))
+        
+        ;; Nếu file đã tồn tại thì tự động xóa để ghi đè, tránh bị hỏi
+        (if (vl-file-size fullPath) (vl-file-delete fullPath))
+        
+        ;; Chuyển sang Layout đó
+        (setvar "CTAB" layoutName)
+        
+        ;; Tạo tập hợp chọn toàn bộ đối tượng hiển thị trong Layout đó
+        (setq ss (ssget "X" (list (cons 410 layoutName))))
+        
+        ;; Sử dụng lệnh WBLOCK thuần dạng dòng lệnh (thêm dấu - trước lệnh)
+        ;; Lệnh này hoạt động ngầm 100% không bao giờ hiện hộp thoại
+        (if ss
+          (progn
+            (command "_.-WBLOCK" fullPath "" "0,0" ss "")
+            (princ (strcat "\n -> Da tao file DWG thanh cong: " layoutName ".dwg"))
+          )
+          (princ (strcat "\n -> Layout [" layoutName "] trong, khong co du lieu de xuat."))
+        )
+      )
+    )
+  )
+
+  (setvar "CTAB" "Model")
+  (princ "\n=== HOAN TAT! Hãy kiem tra thu muc o D ===")
+  (princ)
+)

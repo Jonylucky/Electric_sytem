@@ -9,9 +9,17 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "device_image_markers",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"image_id", "check_definition_id"}))
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(
+        name = "device_image_markers",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"image_id", "equipment_id", "check_definition_id"}
+        )
+)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DeviceImageMarker {
 
     @Id
@@ -24,6 +32,10 @@ public class DeviceImageMarker {
     private DeviceTypeImage deviceTypeImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipment_id")
+    private Equipment equipment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_definition_id", nullable = false)
     private DeviceCheckDefinition checkDefinition;
 
@@ -33,7 +45,27 @@ public class DeviceImageMarker {
     @Column(name = "y_percent", nullable = false, precision = 8, scale = 4)
     private BigDecimal yPercent;
 
-    // 'right' | 'left' | 'top' | 'bottom'
+    @Column(name = "x1_percent", precision = 8, scale = 4)
+    private BigDecimal x1Percent;
+
+    @Column(name = "y1_percent", precision = 8, scale = 4)
+    private BigDecimal y1Percent;
+
+    @Column(name = "x2_percent", precision = 8, scale = 4)
+    private BigDecimal x2Percent;
+
+    @Column(name = "y2_percent", precision = 8, scale = 4)
+    private BigDecimal y2Percent;
+
+    @Column(name = "source", length = 30)
+    private String source; // MANUAL, YOLO, YOLO_OCR, REVIEWED
+
+    @Column(name = "confidence", precision = 6, scale = 4)
+    private BigDecimal confidence;
+
+    @Column(name = "review_status", length = 30)
+    private String reviewStatus; // NEED_REVIEW, CONFIRMED, REJECTED
+
     @Column(name = "label_position", length = 20)
     private String labelPosition = "right";
 
